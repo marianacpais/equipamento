@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Registo de Levantamento de Equipamento</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+    	div {
+            padding: 10px;
+            background-color: #f6f6f6;
+            overflow: hidden;
+        }
+    	input[type=text], textarea, select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        input[type=button]{ 
+            width: auto;
+            float: right;
+            cursor: pointer;
+            padding: 7px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Registo de Levantamento de Equipamento</h1>
+
+    <div>
+        
+        <!--Add few elements to the form-->
+
+        <div>
+            <input type="date" id="txtData" placeholder="Insira a data de levantamento" />
+        </div>
+        <div>
+            <input type="text" id="txtNome" placeholder="Insira o seu nome" />
+        </div>
+        <div>
+            <input type="text" id="txtEmail" placeholder="Insira o seu email" />
+        </div>
+        <div>
+            <input type="text" id="txtSerie" placeholder="Insira o S/N do equipamento" />
+        </div>
+        <div>
+            <input type="text" id="txtDescricao" placeholder="Insira uma descrição do equipamento" />
+        </div>
+        <div>
+            <input type="text" id="txtComentarios" placeholder="Insira um comentário" />
+        </div>
+
+        <!--Add to button to save the data.-->
+        <div>
+            <input type="button" id="bt" value="Exportar variaveis.tex" onclick="saveFile()" />
+        </div>
+    </div>
+</body>
+
+<script>
+    let saveFile = () => {
+    	
+        // Get the data from each element on the form.
+        const datalevantamento = document.getElementById('txtData');
+    	const nome = document.getElementById('txtNome');
+        const email = document.getElementById('txtEmail');
+        const numserie = document.getElementById('txtSerie');
+        const descricao = document.getElementById('txtDescricao');
+        const comentarios = document.getElementById('txtComentarios');
+        
+        // Variavel com o conteúdo do .tex
+        // NOTA: assume-se que data levantamento = data assinatura - corrigir depois
+        let data = 
+        encodeURIComponent(
+            '\\newcommand{\\datalevantamento}{' + datalevantamento.value + ' }' + ' \r\n' + 
+            '\\newcommand{\\nome}{' + nome.value + '}' + ' \r\n' + 
+            '\\newcommand{\\email}{' + email.value + '}' + ' \r\n' + 
+            '\\newcommand{\\numserie}{' + numserie.value + '}' + ' \r\n' + 
+            '\\newcommand{\\descricao}{' + descricao.value + '}' + ' \r\n' + 
+            '\\newcommand{\\comentarios}{' + comentarios.value + '}' + ' \r\n' + 
+            '\\newcommand{\\dataassinatura}{' + datalevantamento.value + '}');
+
+        let url = 'http://latexonline.cc/compile?text=' + data + '%5Cdocumentclass%7Barticle%7D%0A%5Cusepackage%5Butf8%5D%7Binputenc%7D%0A%5Cusepackage%7Btabularx%7D%0A%5Cusepackage%7Bfloat%7D%0A%5Cusepackage%5BT1%5D%7Bfontenc%7D%0A%5Cusepackage%5Bmargin%3D%203%20cm%5D%7Bgeometry%7D%0A%5Cusepackage%7Btcolorbox%7D%0A%5Cbegin%7Bdocument%7D%0A%0A%5Cbegin%7Btcolorbox%7D%5Bwidth%3D%5Clinewidth%2C%20sharp%20corners%3Dall%2C%20colback%3Dwhite%2195%21black%5D%0A%0A%5Clarge%20%5Ccentering%20%5Ctextbf%7BLEVANTAMENTO%20DE%20EQUIPAMENTOS%7D%0A%0AProjeto%20IMAGE%0A%0A%5Cend%7Btcolorbox%7D%0A%0A%5Cvspace%7B1cm%7D%0A%0AEu%2C%20%5Cnome%2C%20declaro%20que%20levantei%20no%20dia%20%5Cdatalevantamento%20o%20equipamento%20%22%5Cdescricao%22%20com%20o%20n%C3%BAmero%20de%20s%C3%A9rie%20%5Cnumserie.%0A%0A%5Cvspace%7B1cm%7D%0A%0A%5Cbegin%7Btable%7D%5BH%5D%0A%5Cbegin%7Bcenter%7D%0A%5Cbegin%7Btabularx%7D%7B%5Ctextwidth%7D%7Br%7CX%7D%0A%5Chline%0A%5Ctextbf%7BData%20de%20levantamento%3A%7D%20%26%20%5Cdatalevantamento%20%5C%5C%0A%5Ctextbf%7BNome%3A%7D%20%26%20%5Cnome%20%5C%5C%0A%5Ctextbf%7BEmail%3A%7D%20%26%20%5Cemail%20%5C%5C%0A%5Ctextbf%7BS%2FN%20do%20equipamento%3A%7D%20%26%20%5Cnumserie%20%5C%5C%0A%5Ctextbf%7BDescri%C3%A7%C3%A3o%20do%20equipamento%3A%7D%20%26%20%5Cdescricao%20%5C%5C%0A%5Ctextbf%7BOutros%20coment%C3%A1rios%3A%7D%20%26%20%5Ccomentarios%20%5C%5C%0A%5Chline%0A%5Cend%7Btabularx%7D%0A%5Cend%7Bcenter%7D%0A%5Cend%7Btable%7D%0A%0A%0A%5Cvspace%7B1cm%7D%0APorto%2C%20%5Cdataassinatura%2C%0A%0A%5Cvspace%7B2cm%7D%0A%5Cnoindent%5Cbegin%7Btabularx%7D%7B%5Ctextwidth%7D%7BlX%7D%0A%5Cmakebox%5B0.2%5Ctextwidth%5D%7B%5Ctextbf%7BBolseiro%7D%7D%20%26%20%5Cmakebox%5B0.6%5Ctextwidth%5D%7B%5Chrulefill%7D%5C%5C%0A%5Ctextbf%7B%7D%20%26%20Mariana%20Canelas%20Pais%0A%5C%5C%5B8ex%5D%0A%5Cmakebox%5B0.2%5Ctextwidth%5D%7B%5Ctextbf%7BSupervisor%7D%7D%20%26%20%20%5Cmakebox%5B0.6%5Ctextwidth%5D%7B%5Chrulefill%7D%5C%5C%0A%5Ctextbf%7B%7D%20%26%20Professor%20Doutor%20Ricardo%20Cruz%20Correia%5C%5C%0A%5Cend%7Btabularx%7D%0A%0A%0A%5Cend%7Bdocument%7D';
+
+            window.open(url, "_blank");
+    }
+</script>
+
+
+
+</html>
