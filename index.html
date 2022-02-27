@@ -30,7 +30,6 @@
 
     <div>
         
-        <!--Add few elements to the form-->
 
         <div>
             <input type="date" id="txtData" placeholder="Insira a data de levantamento" />
@@ -51,7 +50,6 @@
             <input type="text" id="txtComentarios" placeholder="Insira um comentário" />
         </div>
 
-        <!--Add to button to save the data.-->
         <div>
             <input type="button" id="bt" value="Gerar Documento" onclick="saveFile()" />
         </div>
@@ -61,7 +59,6 @@
 <script>
     let saveFile = () => {
     	
-        // Get the data from each element on the form.
         const datalevantamento = document.getElementById('txtData');
     	const nome = document.getElementById('txtNome');
         const email = document.getElementById('txtEmail');
@@ -69,8 +66,7 @@
         const descricao = document.getElementById('txtDescricao');
         const comentarios = document.getElementById('txtComentarios');
         
-        // Variavel com o conteúdo do .tex
-        // NOTA: assume-se que data levantamento = data assinatura - corrigir depois
+        // NOTA: assume-se que data levantamento = data assinatura 
         let data = 
         encodeURIComponent(
             '\\newcommand{\\datalevantamento}{' + datalevantamento.value + ' }' + ' \r\n' + 
